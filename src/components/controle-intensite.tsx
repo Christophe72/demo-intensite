@@ -48,10 +48,12 @@ interface SimulatedData {
 // ...existing imports...
 
 const CalculIntensite: React.FC = () => {
+  const [mounted, setMounted] = useState(false);
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
   const [data, setData] = useState<SimulatedData[]>([]);
 
   useEffect(() => {
+    setMounted(true);
     // Mettre à jour la date
     setCurrentDate(new Date());
 
@@ -96,19 +98,21 @@ const CalculIntensite: React.FC = () => {
         Le {currentDate.getDate()} / {currentDate.getMonth() + 1} /{" "}
         {currentDate.getFullYear()}
       </h3>
-      <LineChart
-        data={data}
-        height={300}
-        width={410}
-        margin={{ top: 5, right: 10, left: 5, bottom: 5 }}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="timestamp" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Line type="monotone" dataKey="current" stroke="#291eec" />
-      </LineChart>
+      {mounted && (
+        <LineChart
+          data={data}
+          height={300}
+          width={410}
+          margin={{ top: 5, right: 10, left: 5, bottom: 5 }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="timestamp" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Line type="monotone" dataKey="current" stroke="#291eec" />
+        </LineChart>
+      )}
       <table
         style={{ width: "100%", marginTop: "20px", borderCollapse: "collapse" }}
       >
